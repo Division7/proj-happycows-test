@@ -26,10 +26,7 @@ jobs:
       run: opkssh login github
 
     - name: SSH into server
-      with:
-        HOST_URL: ${{ secrets.HOST_URL }}
       env:
-        REPO: ${{ github.GITHUB_REPOSITORY }}
-        REF: ${{ github.REF }}
+        HOST_URL: ${{ secrets.HOST_URL }}
       run: |
-        ssh -o StrictHostKeyChecking=accept-new "actions@$HOST_URL" "dokku git:sync happycows https://github.com/$REPO  $REF --build"
+        ssh -o StrictHostKeyChecking=accept-new "actions@$HOST_URL" "dokku git:sync happycows https://github.com/$GITHUB_REPOSITORY  $GITHUB_HEAD_REF --build"

@@ -28,5 +28,6 @@ jobs:
     - name: SSH into server
       env:
         HOST_URL: ${{ secrets.HOST_URL }}
+        PORT: ${{ secrets.PORT }}
       run: |
-        ssh -o StrictHostKeyChecking=accept-new "actions@$HOST_URL" "dokku git:sync happycows https://github.com/$GITHUB_REPOSITORY  $GITHUB_HEAD_REF --build"
+        ssh -o StrictHostKeyChecking=accept-new -p $PORT "actions@$HOST_URL" "dokku git:sync happycows https://github.com/$GITHUB_REPOSITORY  $GITHUB_HEAD_REF --build"

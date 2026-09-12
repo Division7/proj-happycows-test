@@ -59,7 +59,7 @@ jobs:
     needs: publish-docker-image
     uses: Division7/dokku-review-apps/.github/workflows/deploy-postgres-app.yml@main
     with:
-      docker_image: ${{ needs.publish-docker-image.outputs.ghcr-url }}
+      docker_image: ${{ fromJSON(needs.publish-docker-image.outputs.ghcr-url).tags[0] }}
       template_app_name: 'happycows'
     secrets:
       HOST_URL: ${{ secrets.HOST_URL }}

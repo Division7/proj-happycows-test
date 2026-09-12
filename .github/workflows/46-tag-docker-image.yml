@@ -15,7 +15,7 @@ jobs:
     name: Publish Docker Image
     runs-on: ubuntu-latest
     outputs:
-      ghcr-url: ghcr.io/${{ github.repository }}:${{ steps.meta.outputs.version }}
+      ghcr-url: ghcr.io/${{ steps.configure-url.outputs.REPO }}:${{ steps.meta.outputs.version }}
     permissions:
       contents: read
       packages: write
@@ -50,6 +50,9 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+      - name: flatten output
+        id: configure-url
+        run: echo "REPO=${GITHUB_REPOSITORY,,}" >> "$GITHUB_OUTPUT"
   deploy:
     permissions:
       id-token: write

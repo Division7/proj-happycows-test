@@ -15,7 +15,7 @@ jobs:
     name: Publish Docker Image
     runs-on: ubuntu-latest
     outputs:
-      ghcr-url: ${{ steps.meta.outputs.tags }}
+      ghcr-url: ghcr.io/${{ github.repository }}:${{ steps.meta.outputs.version }}
     permissions:
       contents: read
       packages: write
@@ -59,7 +59,7 @@ jobs:
     needs: publish-docker-image
     uses: Division7/dokku-review-apps/.github/workflows/deploy-postgres-app.yml@main
     with:
-      docker_image: ${{ fromJSON(needs.publish-docker-image.outputs.ghcr-url).tags[0] }}
+      docker_image: ${{ needs.publish-docker-image.outputs.ghcr-url }}
       template_app_name: 'happycows'
     secrets:
       HOST_URL: ${{ secrets.HOST_URL }}
